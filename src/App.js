@@ -1,24 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import ModalPage from './Components/ModalPage/ModalPage';
+import { styled, useGlobalStyles } from "./stitches.config";
+import { TextContent } from './Components/Content/TextContent';
 
-function App() {
+const StyledApp = styled("div", {
+  textAlign: "center",
+  h1: {
+    backgroundImage: "$fontGradient",
+    backgroundClip: "text"
+  }
+});
+const Heading = styled("h1", {
+  background: "$fontGradient"
+  
+});
+
+const headerText = "NewDay";
+const App = () => {
+  useGlobalStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <StyledApp>
+      <main>
+        <section>
+          <Heading>
+            {headerText}
+          </Heading>
+             <TextContent />
+            <ModalPage />
+        </section>
+      </main>
+    </StyledApp>
   );
 }
 
