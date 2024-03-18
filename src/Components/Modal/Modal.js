@@ -2,9 +2,9 @@ import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import useFocusTrap from '../../hook/useFosusTrap';
 import Button from '../Button';
-import { styled } from '../../stitches.config'; // Import styled from Stitches config
+import { styled } from '../../stitches.config';
 
-// Create ModalWrapper component using Stitches
+
 export const ModalWrapper = styled("div", {
   position: "fixed",
   top: "50%",
