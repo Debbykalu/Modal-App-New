@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import useFocusTrap from '../../hook/useFosusTrap';
 import Button from '../Button';
 import { styled } from '../../stitches.config'; // Import styled from Stitches config
 
@@ -27,72 +28,105 @@ const ModalOverlay = styled("div", {
   background: "$backgroundOverlay", // Use theme variable for background color
   zIndex: 100
 });
-const ModalContentRap = styled("div", {
+const ModalContent = styled("div", {
   padding: "16px"
 });
-export const ModalClose = styled("div", {
-  display: "flex",
-  margin: "20px",
-  columnGap: "12px",
-  justifyContent: "flex-end",
+
+
+export const Heading = styled("h2", {
+  margin: 0
 });
 
 
 // Modal component
-function Modal({ onCloseClick, children, actionButton}) {
-  // Create a reference to the modal element
-  const modalRef = useRef();
+function Modal({ 
+  isOpen,
+  setIsOpen,
+  heading,
+  triggerText,
+  content}) {
 
-  // Function that handles Tab key navigation inside the modal
-  const handleTabKey = e => {
-    const focusableModalElements = modalRef.current.querySelectorAll(
-      'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-    const firstElement = focusableModalElements[0];
-    const lastElement = focusableModalElements[focusableModalElements.length - 1];
+  const [modalRef, handleKeyDown] = useFocusTrap()
+  const lastFocusedElement = useRef(null)
 
-    if (!e.shiftKey && document.activeElement !== firstElement) {
-      firstElement.focus();
-      return e.preventDefault();
-    }
+  const headingId = "modal-heading"
+  const descriptionId = "modal-description"
 
-    if (e.shiftKey && document.activeElement !== lastElement) {
-      lastElement.focus();
-      e.preventDefault();
-    }
-  };
-
-  // useEffect hook to handle key listeners
+  // ENHANCEMENT Move useEffect into custom useModal hook
   useEffect(() => {
-    const keyListener = (e) => {
-      const listener = keyListenersMap.get(e.keyCode);
-      return listener && listener(e);
+    const closeOnEscapePress = event => {
+      if (event.key === "Escape") {
+        setIsOpen(false)
+      }
     }
-    document.addEventListener("keydown", keyListener);
-    return () => document.removeEventListener("keydown", keyListener);
-  }, []);
 
-  const keyListenersMap = new Map([[27, onCloseClick], [9, handleTabKey]]);
+    if (isOpen) {
+      // prevent overflow
+      document.body.style.overflow = "hidden"
+
+      // add escape key listener
+      document.addEventListener("keydown", closeOnEscapePress)
+
+      // focus first valid element in modal
+      if (modalRef.current) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        )
+
+        if (focusableElements.length > 0) {
+          // store last focused element
+          lastFocusedElement.current = document.activeElement
+
+          // focus first valid element in modal
+          focusableElements[0].focus()
+        }
+      }
+    } else {
+      document.body.style.overflow = "unset"
+      document.removeEventListener("keydown", closeOnEscapePress)
+    }
+
+    return () => {
+      document.body.style.overflow = "unset"
+      document.removeEventListener("keydown", closeOnEscapePress)
+
+      // refocus last focused element
+      if (lastFocusedElement.current instanceof HTMLElement) {
+        lastFocusedElement.current.focus()
+      }
+    } // Add semicolon here
+  }, [isOpen, setIsOpen, modalRef])
 
   // Return modal using ReactDOM.createPortal
- return ReactDOM.createPortal(
-  <ModalOverlay onClick={onCloseClick}>
-    <ModalWrapper 
-      ref={modalRef} 
-      aria-modal
-      tabIndex={-1}
-      role="dialog">
-      <ModalContentRap>
-        <ModalClose>
-          <Button onClick={onCloseClick} color="purple">X</Button> 
-        </ModalClose>
-        {children}
-        {actionButton}
-      </ModalContentRap>
+return(
+  <>
+  {/* ENHANCEMENT Allow custom button be passed in */}
+  <Button color="purple" onClick={() => setIsOpen(true)}>{triggerText}</Button>
+      {isOpen &&
+        createPortal(
+  <> 
+  <ModalOverlay
+  data-testid="modal-overlay"
+  onClick={() => { setIsOpen(false)}}
+/>
+  <ModalWrapper 
+       aria-modal
+       aria-labelledby={headingId}
+       aria-describedby={descriptionId}
+       tabIndex={-1}
+       role="dialog"
+       ref={modalRef}
+       onKeyDown={handleKeyDown}
+  >
+      <ModalContent>
+        {content}
+      </ModalContent>
     </ModalWrapper>
-  </ModalOverlay>,
+  </>,
   document.body
-  );
+  )}
+  </>
+)
 }
 
 export default Modal;

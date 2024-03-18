@@ -1,6 +1,5 @@
-export const Content = () => (
+export const ModalCont = () => (
     <>
-      <h2>Terms and Condition.  </h2>
       <p>
       You will need to agree to our terms and conditions All the Lorem Ipsum generators on 
       the Internet tend to repeat predefined chunks as necessary, making this the first true 

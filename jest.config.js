@@ -12,7 +12,5 @@ module.exports = {
   
     // Module file extensions for importing modules
     moduleFileExtensions: ['js', 'jsx', 'json', 'node'],
-  
-    // Other Jest configurations can be added here
   };
    
