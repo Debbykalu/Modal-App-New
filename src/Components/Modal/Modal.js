@@ -11,7 +11,6 @@ export const ModalWrapper = styled("div", {
   left: "50%",
   transform: " translate(-50%, -50%)",
   zIndex: 200,
-  width: "inherit",
   outline: 0,
   background: '#ffffff',
   margin: 'auto 30px',

@@ -37,29 +37,6 @@ const Button = styled("button", {
           outlineOffset: "3px"
         }
       },
-      brown: {
-        backgroundColor: "$brown100",
-        color: "$white100",
-        "&:hover": {
-          backgroundColor: "$green100"
-        },
-        "&:focus-visible": {
-          outline: "2px solid $purple300",
-          outlineOffset: "3px"
-        }
-      },
-
-      blue: {
-        backgroundColor: "$blue100",
-        color: "$white100",
-        "&:hover": {
-          backgroundColor: "$purple100"
-        },
-        "&:focus-visible": {
-          outline: "2px solid $purple300",
-          outlineOffset: "3px"
-        }
-      },
       grey: {
         backgroundColor: "$grey100",
         color: "$grey300",

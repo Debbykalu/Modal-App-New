@@ -11,7 +11,6 @@ root.render(
   </React.StrictMode>
 );
 
-// Ensure the correct argument is passed to reportAccessibility
 reportAccessibility(React);
 
 reportWebVitals();
