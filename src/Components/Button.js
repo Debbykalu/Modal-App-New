@@ -5,7 +5,7 @@ const Button = styled("button", {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  fontSize: "15px",
+  fontSize: "12px",
   lineHeight: "1",
   fontWeight: "500",
   height: "35px",
