@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
-import useFocusTrap from '../../hook/useFosusTrap';
-import Button from '../Button';
-import { styled } from '../../stitches.config';
+import useFocusTrap from '../../hook/useFosusTrap'; // Importing custom hook for focus trapping
+import Button from '../Button'; // Importing Button component
+import { styled } from '../../stitches.config'; // Importing styled function from Stitches config
 
-
+// Styling for ModalWrapper component using Stitches
 export const ModalWrapper = styled("div", {
   position: "fixed",
   top: "50%",
@@ -28,15 +28,16 @@ const ModalOverlay = styled("div", {
   background: "$backgroundOverlay", // Use theme variable for background color
   zIndex: 100
 });
+
+// Styling for ModalContent component using Stitches
 const ModalContent = styled("div", {
   padding: "16px"
 });
 
-
+// Styling for Heading component using Stitches
 export const Heading = styled("h2", {
   margin: 0
 });
-
 
 // Modal component
 function Modal({ 
@@ -45,15 +46,16 @@ function Modal({
   heading,
   triggerText,
   content}) {
-
+  // Initialize custom hook for focus trapping
   const [modalRef, handleKeyDown] = useFocusTrap()
   const lastFocusedElement = useRef(null)
 
   const headingId = "modal-heading"
   const descriptionId = "modal-description"
 
-  // ENHANCEMENT Move useEffect into custom useModal hook
+  // Effect to handle modal opening and closing, focus trapping, and keyboard events
   useEffect(() => {
+    // Function to close modal when Escape key is pressed
     const closeOnEscapePress = event => {
       if (event.key === "Escape") {
         setIsOpen(false)
@@ -61,72 +63,73 @@ function Modal({
     }
 
     if (isOpen) {
-      // prevent overflow
+      // Prevent scrolling when modal is open
       document.body.style.overflow = "hidden"
 
-      // add escape key listener
+      // Add event listener for Escape key
       document.addEventListener("keydown", closeOnEscapePress)
 
-      // focus first valid element in modal
+      // Focus first valid element in modal when opened
       if (modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll(
           'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
         )
 
         if (focusableElements.length > 0) {
-          // store last focused element
+          // Store last focused element
           lastFocusedElement.current = document.activeElement
 
-          // focus first valid element in modal
+          // Focus first valid element in modal
           focusableElements[0].focus()
         }
       }
     } else {
+      // Reset body overflow style when modal is closed
       document.body.style.overflow = "unset"
       document.removeEventListener("keydown", closeOnEscapePress)
     }
 
+    // Cleanup function to remove event listener and refocus last focused element
     return () => {
-      document.body.style.overflow = "unset"
-      document.removeEventListener("keydown", closeOnEscapePress)
+      document.body.style.overflow = "unset" // Reset body overflow style
+      document.removeEventListener("keydown", closeOnEscapePress) // Remove event listener
 
-      // refocus last focused element
+      // Refocus last focused element if it exists
       if (lastFocusedElement.current instanceof HTMLElement) {
         lastFocusedElement.current.focus()
       }
-    } // Add semicolon here
+    }; // Add semicolon here
   }, [isOpen, setIsOpen, modalRef])
 
   // Return modal using ReactDOM.createPortal
-return(
-  <>
-  {/* ENHANCEMENT Allow custom button be passed in */}
-  <Button color="purple" onClick={() => setIsOpen(true)}>{triggerText}</Button>
+  return (
+    <>
+      {/* Button to trigger modal */}
+      <Button color="purple" onClick={() => setIsOpen(true)}>{triggerText}</Button>
+      {/* Render modal overlay and modal content when modal is open */}
       {isOpen &&
         createPortal(
-  <> 
-  <ModalOverlay
-  data-testid="modal-overlay"
-  onClick={() => { setIsOpen(false)}}
-/>
-  <ModalWrapper 
-       aria-modal
-       aria-labelledby={headingId}
-       aria-describedby={descriptionId}
-       tabIndex={-1}
-       role="dialog"
-       ref={modalRef}
-       onKeyDown={handleKeyDown}
-  >
-      <ModalContent>
-        {content}
-      </ModalContent>
-    </ModalWrapper>
-  </>,
-  document.body
-  )}
-  </>
-)
+          <>
+            <ModalOverlay data-testid="modal-overlay" onClick={() => { setIsOpen(false)}} />
+            <ModalWrapper 
+              aria-modal
+              aria-labelledby={headingId}
+              aria-describedby={descriptionId}
+              tabIndex={-1}
+              role="dialog"
+              ref={modalRef}
+              onKeyDown={handleKeyDown}
+            >
+              <ModalContent>
+                {content}
+              </ModalContent>
+            </ModalWrapper>
+          </>,
+          document.body
+        )
+      }
+    </>
+  );
 }
 
 export default Modal;
