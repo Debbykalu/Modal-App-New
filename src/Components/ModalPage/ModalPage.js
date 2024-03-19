@@ -47,23 +47,23 @@ const ModalPage = () => {
       content={
         <>
           <ModalContentRap>
-          <ModalClose>
-              <Button onClick={() => setOpen(false)} color="purple">X</Button> 
-          </ModalClose>
-            <Heading>
+              <ModalClose>
+                <Button onClick={() => setOpen(false)} color="purple">X</Button> 
+              </ModalClose>
+              <Heading>
               {heading}
-            </Heading>
-            <Description >
+              </Heading>
+              <Description >
               <ModalCont />
-            </Description>
+              </Description>
           </ModalContentRap>
           <ActionDiv>
-            <Button color="green" onClick={() => setOpen(false)}>
-             I Agree
-            </Button>
-            <Button color="purple" onClick={() => setOpen(false)}>
-             Don't Agree
-            </Button>
+              <Button color="green" onClick={() => setOpen(false)}>
+                  I Agree
+              </Button>
+              <Button color="purple" onClick={() => setOpen(false)}>
+                  Don't Agree
+              </Button>
           </ActionDiv>
         </>
       }

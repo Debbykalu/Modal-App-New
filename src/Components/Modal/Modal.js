@@ -8,12 +8,13 @@ import { styled } from '../../stitches.config'; // Importing styled function fro
 export const ModalWrapper = styled("div", {
   position: "fixed",
   top: "50%",
-  left: "43%",
+  left: "50%",
   transform: " translate(-50%, -50%)",
   zIndex: 200,
   outline: 0,
   background: '#ffffff',
   margin: 'auto 30px',
+  width: '40%',
 });
 
 // Create ModalOverlay component using Stitches
