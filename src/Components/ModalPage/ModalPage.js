@@ -53,12 +53,8 @@ const ModalPage = () => {
               <ModalClose>
                 <Button onClick={() => setOpen(false)} color="purple">X</Button> 
               </ModalClose>
-              <Heading>
-              {heading}
-              </Heading>
-              <Description >
-              <ModalCont />
-              </Description>
+              <Heading>{heading}</Heading>
+              <Description ><ModalCont /></Description>
           </ModalContentRap>
           <ActionDiv>
               <Button color="green" onClick={() => setOpen(false)}>

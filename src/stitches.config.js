@@ -1,3 +1,5 @@
+//All this colors are carefully selected on https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI
+// meet the WCAG standard which passes the AA, AAA test.
 import { createStitches } from "@stitches/react";
 
 export const { styled, css, globalCss } = createStitches({
