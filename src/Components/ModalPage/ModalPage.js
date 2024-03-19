@@ -5,6 +5,7 @@ import {ModalCont} from '../Content/ModalCont';
 
 import { styled } from '../../stitches.config';
 
+// Styling for the modal content wrapper
 const ModalContentRap = styled("div", {
   position: "relative",
   borderRadius: "6px",
@@ -14,33 +15,35 @@ const ModalContentRap = styled("div", {
   maxHeight: "85vh",
   padding: "16px"
 });
-
+// Styling for the close button
 export const ModalClose = styled("div", {
   display: "flex",
   margin: "20px",
   columnGap: "12px",
   justifyContent: "flex-end",
 });
-
+//Styling for the action buttons
 export const ActionDiv = styled("div", {
   display: "flex",
   margin: "20px",
   columnGap: "12px",
   justifyContent: "flex-end",
 });
-
+//Styling for the description text
 export const Description = styled("p", {
   color: "$grey300",
   margin: "12px 0 20px"
 });
 
 const ModalPage = () => {
+   // State to manage the modal open and close
   const [open, setOpen] = useState(false);
-
+//Modal heading text
   const heading = "Terms and Conditions";
 
   return (
     <Modal 
+    //destructuring of props from Modal component
        isOpen={open}
        setIsOpen={setOpen}
        triggerText="Click Here"

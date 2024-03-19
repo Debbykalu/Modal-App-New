@@ -3,14 +3,15 @@ import userEvent from "@testing-library/user-event";
 import { axe, toHaveNoViolations } from "jest-axe";
 import ModalPage from "./ModalPage"
 
-
+// Extend Jest matchers to include accessibility checks
 expect.extend(toHaveNoViolations);
-
+// Test suite for ModalPage component
 describe("ModalPage", () => {
+  // Test case: clicking button should open modal
     it("can click button to open modal", () => {
-      render(<ModalPage />);
+      render(<ModalPage />); // Rendering the ModalPage component
       const triggerButton = screen.getByRole("button", {
-        name: /Click Here/i
+        name: /Click Here/i // Getting the trigger button by role
       });
       userEvent.click(triggerButton);
   
@@ -25,7 +26,7 @@ describe("ModalPage", () => {
       expect(modalDescription).toBeInTheDocument();
     });
   });  
-
+// Test suite for modal when opened
   describe("when opened", () => {
     let container;
   
@@ -45,6 +46,7 @@ describe("ModalPage", () => {
     let container;
   
     beforeEach(() => {
+      // Rendering the ModalPage component and storing the container
       const { container: renderedContainer } = render(<ModalPage />)
       container = renderedContainer
       const triggerButton = screen.getByRole("button", {
@@ -52,7 +54,7 @@ describe("ModalPage", () => {
       })
       userEvent.click(triggerButton)
     })
-  
+  // Test case: modal should open when trigger button is clicked
     it("should not violate any accessibility rules", async () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()
@@ -72,6 +74,7 @@ describe("ModalPage", () => {
       }
     )
   })
+  // Additional test suite for accessibility and modal exit behavior
   describe("when opened", () => {
     let container
   
@@ -83,7 +86,7 @@ describe("ModalPage", () => {
       })
       userEvent.click(triggerButton)
     })
-  
+  // Test case: modal should not violate any accessibility rules
     it("should not violate any accessibility rules", async () => {
       const results = await axe(container)
       expect(results).toHaveNoViolations()

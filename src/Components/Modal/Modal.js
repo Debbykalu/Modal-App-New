@@ -97,7 +97,7 @@ function Modal({
       if (lastFocusedElement.current instanceof HTMLElement) {
         lastFocusedElement.current.focus()
       }
-    }; // Add semicolon here
+    }; 
   }, [isOpen, setIsOpen, modalRef])
 
   // Return modal using ReactDOM.createPortal
