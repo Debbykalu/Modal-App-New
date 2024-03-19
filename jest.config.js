@@ -4,10 +4,9 @@ module.exports = {
   
     // Transform files before running tests
     transform: {
-      '^.+\\.jsx?$': 'babel-jest', // Assuming you're using Babel for transforms
+      '^.+\\.jsx?$': 'babel-jest',
     },
   
-    // Include files matching the specified patterns for tests
     testMatch: ['**/__tests__/**/*.js', '**/?(*.)+(spec|test).js'],
   
     // Module file extensions for importing modules
