@@ -15,6 +15,8 @@ ModalPage.test.js
 
 ### Deployment
 
-React + Javascript
-Stitches for the csc
-Jest for testing
+# React + Javascript
+
+# Stitches for the csc
+
+# Jest for testing
